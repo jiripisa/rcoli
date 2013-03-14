@@ -1,4 +1,4 @@
-rcoli
+RCoLi
 =====
 
-Library for development of command line applications in Ruby
+Library for development of command line applications in Ruby.
