@@ -2,6 +2,22 @@ require 'rcoli/extensions'
 require 'rcoli/model'
 require 'rcoli/help'
 
+module RCoLi
+class Program
+    
+  setter :name
+  setter :author
+  setter :version
+    
+  include CommandContainer
+    
+  def execute
+    p "Prcak2"
+  end
+    
+end
+end
+
 @program = RCoLi::Program.new
 
 def application(name, &block)
@@ -10,6 +26,5 @@ def application(name, &block)
 end
 
 at_exit {
-  help if ARGV.empty?
-  p @program
+  @program.execute
 }

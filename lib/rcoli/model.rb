@@ -63,14 +63,4 @@ module RCoLi
     
   end
   
-  class Program
-    
-    setter :name
-    setter :author
-    setter :version
-    
-    include CommandContainer
-    
-  end
-  
 end
