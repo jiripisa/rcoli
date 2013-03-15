@@ -2,9 +2,14 @@ require 'rcoli/extensions'
 require 'rcoli/model'
 require 'rcoli/help'
 
-include RCoLi::Program
+@program = RCoLi::Program.new
+
+def application(name, &block)
+  @program.name name
+  @program.instance_eval &block
+end
 
 at_exit {
   help if ARGV.empty?
-  p @commands
+  p @program
 }

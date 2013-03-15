@@ -22,18 +22,8 @@ module RCoLi
     end
     
   end
-  
-  module Program
-    
-    setter :name
-    setter :author
-    setter :version
-    
-    include CommandContainer
-    
-  end
-  
-  class Option
+      
+  module Option
     
     setter :description
     
@@ -44,10 +34,15 @@ module RCoLi
     
   end
   
-  class Switch < Option
+  class Switch
+    
+    include Option
+    
   end
   
-  class Flag < Option
+  class Flag
+    
+    include Option
     
     setter :default_value
     setter :arg_name
@@ -63,6 +58,16 @@ module RCoLi
     def initialize(name)
       @name = name
     end
+    
+    include CommandContainer
+    
+  end
+  
+  class Program
+    
+    setter :name
+    setter :author
+    setter :version
     
     include CommandContainer
     
