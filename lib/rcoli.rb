@@ -1,4 +1,4 @@
-require 'rcoli/utils'
+require 'rcoli/extensions'
 require 'rcoli/model'
 require 'rcoli/help'
 
