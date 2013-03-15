@@ -1,6 +1,7 @@
 module RCoLi
   
   module CommandContainer
+    
     def command(name, &block)
       obj = Command.new(name)
       block.call(obj)  
@@ -28,7 +29,7 @@ module RCoLi
     setter :author
     setter :version
     
-    include CommandContainer    
+    include CommandContainer
     
   end
   
@@ -55,8 +56,6 @@ module RCoLi
     
   class Command
     
-     
-
     setter :summary
     setter :description
     setter :syntax
