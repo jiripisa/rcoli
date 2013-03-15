@@ -23,9 +23,7 @@ module RCoLi
   end
   
   module Program
-        
-    extend RCoLi::Properties     
-        
+    
     setter :name
     setter :author
     setter :version
@@ -36,8 +34,6 @@ module RCoLi
   
   class Option
     
-    extend RCoLi::Properties     
-
     setter :description
     
     def initialize(names)
@@ -59,7 +55,7 @@ module RCoLi
     
   class Command
     
-    extend RCoLi::Properties 
+     
 
     setter :summary
     setter :description
