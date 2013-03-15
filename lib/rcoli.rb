@@ -11,9 +11,10 @@ class Program
     
   include CommandContainer
   include Help
-    
+      
   def execute(args)
-    help
+    result = ParsedArgs.new
+    parse_args(args, result)
   end
     
 end
@@ -27,5 +28,10 @@ def application(name, &block)
 end
 
 at_exit {
-  @program.execute(ARGV)
+  begin
+    @program.execute(ARGV)
+  rescue InvalidCommand => e
+    puts e.message
+  end
+    
 }

@@ -1,3 +1,6 @@
+class InvalidCommand < Exception
+end
+
 module RCoLi
   
   module CommandContainer
@@ -21,6 +24,27 @@ module RCoLi
       (@options ||= []) << obj
     end
     
+    def parse_args(args, result)
+      args.each do |arg|
+        if (is_option? arg)
+          if (valid_option? arg)
+            
+          else
+            raise InvalidCommand, "#{arg} is not a valid option"
+          end
+        end
+      end
+    end
+    
+    private
+    def valid_option?(value)
+      return @options.any? {|opt| opt.correspond?(value)}
+    end
+    
+    def is_option?(value)
+      value.start_with?('-')
+    end
+    
   end
       
   module Option
@@ -30,6 +54,10 @@ module RCoLi
     def initialize(names)
       @s_name = names[:short]
       @l_name = names[:long]
+    end
+    
+    def correspond?(value)
+      return (value.sub('-','').eql? @s_name or value.sub('--','').eql? @l_name)
     end
     
   end
@@ -60,6 +88,20 @@ module RCoLi
     end
     
     include CommandContainer
+    
+  end
+  
+  class ParsedArgs
+    
+    attr_reader :global_options
+    attr_reader :options
+    
+    attr_accessor :command
+    
+    def initialize
+      @global_options = {}
+      @options = {}
+    end
     
   end
   
