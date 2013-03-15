@@ -10,9 +10,10 @@ class Program
   setter :version
     
   include CommandContainer
+  include Help
     
-  def execute
-    p "Prcak2"
+  def execute(args)
+    help
   end
     
 end
@@ -26,5 +27,5 @@ def application(name, &block)
 end
 
 at_exit {
-  @program.execute
+  @program.execute(ARGV)
 }
