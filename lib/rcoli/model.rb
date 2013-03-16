@@ -7,6 +7,14 @@ module RCoLi
     
     attr_accessor :parent
     
+    def action(&block)
+      @action = block
+    end
+    
+    def get_action
+      @action
+    end
+    
     def command(name, &block)
       obj = Command.new(name)
       obj.parent = self
@@ -137,10 +145,15 @@ module RCoLi
     include CommandContainer
     include Help
       
-    def execute(args)
+    def execute(args, context)
       result = ParsedArgs.new
       parse_args(args, result)
-      help if result.no_command?
+      if result.command
+        action = result.command.get_action
+        context.instance_exec(result.global_options, result.options, result.arguments, &action)
+      else
+        help
+      end
     end
     
   end

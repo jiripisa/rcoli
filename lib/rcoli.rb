@@ -12,7 +12,7 @@ end
 
 at_exit {
   begin
-    @program.execute(ARGV)
+    @program.execute(ARGV, self)
   rescue InvalidCommand => e
     puts e.message
   end
