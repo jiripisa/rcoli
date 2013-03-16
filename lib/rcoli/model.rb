@@ -140,7 +140,7 @@ module RCoLi
     def execute(args)
       result = ParsedArgs.new
       parse_args(args, result)
-      p result
+      help if result.no_command?
     end
     
   end
@@ -158,6 +158,10 @@ module RCoLi
       @global_options = {}
       @options = {}
       @arguments = []
+    end
+    
+    def no_command?
+      return @command.nil?
     end
     
   end
