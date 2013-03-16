@@ -1,29 +1,12 @@
 require 'rcoli/extensions'
-require 'rcoli/model'
 require 'rcoli/help'
+require 'rcoli/model'
 
-module RCoLi
-class Program
-    
-  setter :name
-  setter :author
-  setter :version
-    
-  include CommandContainer
-  include Help
-      
-  def execute(args)
-    result = ParsedArgs.new
-    parse_args(args, result)
-  end
-    
-end
-end
 
 @program = RCoLi::Program.new
 
-def application(name, &block)
-  @program.name name
+def application(id, &block)
+  @program.name id
   @program.instance_eval &block
 end
 
