@@ -8,6 +8,11 @@ require 'rcoli/model'
 
 def application(id, &block)
   @program.name id
+  @program.command(:help) do |c|
+    c.action do |global_opts, opts, args|
+      @program.help
+    end
+  end
   @program.instance_eval &block
 end
 
@@ -15,7 +20,7 @@ at_exit {
   begin
     @program.execute(ARGV, self)
   rescue InvalidCommand => e
-    puts e.message
+    say "#{@program.value_of_name}: #{e.message}. See '#{@program.value_of_name} --help'"
   end
     
 }

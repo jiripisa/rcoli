@@ -56,7 +56,7 @@ module RCoLi
           target = self.parent ? :options : :global_options
           option.keys.each{|key| result.send(target)[key] = value}
         else
-          raise InvalidCommand, "#{arg} is not a valid option"
+          raise InvalidCommand, "#'{arg}' is not a valid option"
         end
       else
         if (cmd = find_command(arg))
@@ -65,7 +65,7 @@ module RCoLi
         elsif (commands.empty?)
           result.arguments << arg
         else
-          raise InvalidCommand, "#{arg} is not a valid command"
+          raise InvalidCommand, "'#{arg}' is not a valid #{@name} command"
         end
       end
       parse_args(args, result)
@@ -141,9 +141,10 @@ module RCoLi
     setter :name
     setter :author
     setter :version
+    setter :description
     
-    include CommandContainer
     include Help
+    include CommandContainer
       
     def execute(args, context)
       result = ParsedArgs.new
@@ -152,7 +153,7 @@ module RCoLi
         action = result.command.get_action
         context.instance_exec(result.global_options, result.options, result.arguments, &action)
       else
-        help
+        say "Display UI"
       end
     end
     

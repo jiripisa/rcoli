@@ -1,2 +1,12 @@
-<%= @version %>
-Usage: <%= @name %> (<resource> | --help) [<action>] [<args>]
+<%= $terminal.color "NAME", :bold %>:
+    <%= @name %>
+
+<%= $terminal.color "VERSION", :bold %>:
+    <%= @version %>
+
+<%= $terminal.color "DESCRIPTION", :bold %>:
+    <%= @description %>
+
+<%= $terminal.color "COMMANDS", :bold %>:
+<% @commands.each do |c| %>    <%= c.value_of_name %>
+<% end %>
