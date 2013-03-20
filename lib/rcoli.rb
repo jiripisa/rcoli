@@ -1,3 +1,4 @@
+require 'highline/import'
 require 'rcoli/extensions'
 require 'rcoli/help'
 require 'rcoli/model'

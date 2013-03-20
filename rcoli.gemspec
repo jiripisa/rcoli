@@ -14,5 +14,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
   
+  s.add_runtime_dependency("highline", "~> 1.6.11")
+  
   s.add_development_dependency("rake")
 end
