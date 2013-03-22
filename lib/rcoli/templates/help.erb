@@ -8,5 +8,5 @@
     <%= @description %>
 
 <%= $terminal.color "COMMANDS", :bold %>:
-<% @commands.each do |c| %>    <%= c.value_of_name %>
+<% @commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| %>    <%= c.value_of_name %>
 <% end %>
