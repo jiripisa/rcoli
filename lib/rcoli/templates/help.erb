@@ -1,12 +1,22 @@
-<%= $terminal.color "NAME", :bold %>:
+  <%= $terminal.color "NAME", :bold %>:
     <%= @name %>
 
-<%= $terminal.color "VERSION", :bold %>:
+  <%= $terminal.color "VERSION", :bold %>:
     <%= @version %>
 
-<%= $terminal.color "DESCRIPTION", :bold %>:
+  <%= $terminal.color "DESCRIPTION", :bold %>:
     <%= @description %>
 
-<%= $terminal.color "COMMANDS", :bold %>:
-<% @commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| %>    <%= c.value_of_name %>
-<% end %>
+  <%= $terminal.color "COMMANDS", :bold %>:
+    <% @commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| -%>
+    <%= "%-20s %s" % [c.value_of_name, c.value_of_description] %>
+    <% end %>
+
+<% unless @options.empty? -%>
+  <%= $terminal.color "GLOBAL OPTIONS", :bold %>:
+	<% for option in @options -%>
+    
+    <%= option.help_keys.join ', ' %> 
+        <%= option.value_of_description %>
+	<% end -%>
+<% end -%>

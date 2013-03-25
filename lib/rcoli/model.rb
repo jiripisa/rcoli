@@ -100,6 +100,13 @@ module RCoLi
       [@s_name, @l_name].compact
     end
     
+    def help_keys
+      result = []
+      result << "-#{@s_name}" if @s_name
+      result << "--#{@l_name}" if @l_name
+      result
+    end
+    
     def correspond?(value)
       return (value.sub('-','').eql? @s_name or value.sub('--','').eql? @l_name)
     end
