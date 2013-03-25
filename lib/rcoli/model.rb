@@ -71,16 +71,16 @@ module RCoLi
       parse_args(args, result)
     end
     
+    def find_command(name)
+      commands.find{|command| command.value_of_name.eql? name}
+    end
+    
     private
     
     def find_option(name)
       options.find{|opt| opt.correspond?(name)}
     end
-    
-    def find_command(name)
-      commands.find{|command| command.value_of_name.eql? name}
-    end
-        
+
     def is_option?(value)
       value.start_with?('-')
     end
@@ -140,6 +140,16 @@ module RCoLi
     end
     
     include CommandContainer
+    
+    def full_command
+      command = self
+      result = []
+      while(command) do
+        result << command.value_of_name
+        command = command.parent
+      end
+      return result.reverse.join(' ')
+    end
     
   end
   

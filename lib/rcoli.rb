@@ -11,7 +11,7 @@ def application(id, &block)
   @program.command(:help) do |c|
     c.description "Display help documentation"
     c.action do |global_opts, opts, args|
-      @program.help
+      @program.help args
     end
   end
   @program.instance_eval &block

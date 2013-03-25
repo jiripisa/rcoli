@@ -1,11 +1,11 @@
   <%= $terminal.color "NAME", :bold %>:
-    <%= @name %>
+    <%= @name %> - <%= @description %>
 
+  <%= $terminal.color "SYNOPSIS", :bold %>:
+    <%=@name%> [global options] command [command options] [arguments...]
+    
   <%= $terminal.color "VERSION", :bold %>:
     <%= @version %>
-
-  <%= $terminal.color "DESCRIPTION", :bold %>:
-    <%= @description %>
 
   <%= $terminal.color "COMMANDS", :bold %>:
     <% @commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| -%>
