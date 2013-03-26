@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = RCoLi::VERSION
   s.authors     = ["Jiri Pisa"]
   s.email       = ["jirka.pisa@gmail.com"]
-  s.homepage    = "http://jiripisa.com"
+  s.homepage    = "https://github.com/jiripisa/rcoli"
   s.summary     = "The complete solution for commandline application written in ruby."
   s.description = "The complete solution for commandline application written in ruby."
 
