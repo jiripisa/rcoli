@@ -144,7 +144,7 @@ module RCoLi
     def full_command
       command = self
       result = []
-      while(command) do
+      while(command.parent) do
         result << command.value_of_name
         command = command.parent
       end

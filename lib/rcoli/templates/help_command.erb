@@ -1,1 +1,23 @@
-Usage: <%= command.full_command%>
+  <%= $terminal.color "NAME", :bold %>:
+  
+    <%= command.full_command %> - <%= command.value_of_description %>
+
+  <%= $terminal.color "SYNOPSIS", :bold %>:
+  
+    <%= @name %> [global options] <%= command.full_command%> [command options] [arguments...]
+
+<% unless command.commands.empty? -%>
+  <%= $terminal.color "SUBCOMMANDS", :bold %>:
+  
+<% command.commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| -%>
+    <%= "%-20s %s" % [c.value_of_name, c.value_of_description] %>
+<% end %>
+<% end -%>
+
+<% unless command.options.empty? -%>
+  <%= $terminal.color "COMMAND OPTIONS", :bold %>:
+	<% for option in command.options -%>    
+    <%= option.help_keys.join ', ' %> 
+        <%= option.value_of_description %>
+	<% end -%>
+<% end -%>
