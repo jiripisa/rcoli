@@ -61,6 +61,7 @@ module RCoLi
       else
         if (cmd = find_command(arg))
           result.command = cmd
+          cmd.put_default_values(result)
           cmd.parse_args(args, result)
         elsif (commands.empty?)
           result.arguments << arg
@@ -69,6 +70,13 @@ module RCoLi
         end
       end
       parse_args(args, result)
+    end
+    
+    def put_default_values(result)
+      options.find_all{|option| option.respond_to? :value_of_default_value and option.value_of_default_value}.each do |option|
+        target = self.parent ? :options : :global_options
+        option.keys.each{|key| result.send(target)[key] = option.value_of_default_value}
+      end
     end
     
     def find_command(name)
@@ -173,6 +181,7 @@ module RCoLi
       
     def execute(args, context)
       result = ParsedArgs.new
+      put_default_values(result)      
       parse_args(args, result)
       if result.command
         action = result.command.get_action

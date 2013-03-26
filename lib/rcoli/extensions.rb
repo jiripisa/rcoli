@@ -6,7 +6,11 @@ def setter(name)
   
   define_method("value_of_#{name}") do
     ivar = "@#{name}"
-    instance_variable_get(ivar).to_s
+    if (instance_variable_get(ivar))
+      instance_variable_get(ivar).to_s
+    else
+      nil
+    end
   end
   
 end
