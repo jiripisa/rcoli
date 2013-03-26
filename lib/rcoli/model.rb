@@ -135,6 +135,14 @@ module RCoLi
     setter :description
     setter :syntax
     
+    def solitaire
+      @solitaire = true
+    end
+    
+    def solitaire?
+      return true == @solitaire
+    end
+    
     def initialize(name)
       @name = name
     end
@@ -168,10 +176,21 @@ module RCoLi
       parse_args(args, result)
       if result.command
         action = result.command.get_action
+        raise "Invalid configuration. Missing action block." unless action
+        context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.solitaire?) 
         context.instance_exec(result.global_options, result.options, result.arguments, &action)
+        context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.solitaire?) 
       else
         say "Display UI"
       end
+    end
+    
+    def pre(&block)
+      @pre_action = block
+    end
+    
+    def post(&block)
+      @post_action = block
     end
     
   end

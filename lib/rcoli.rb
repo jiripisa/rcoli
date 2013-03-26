@@ -10,6 +10,7 @@ def application(id, &block)
   @program.name id
   @program.command(:help) do |c|
     c.description "Display help documentation"
+    c.solitaire
     c.action do |global_opts, opts, args|
       @program.help args
     end
