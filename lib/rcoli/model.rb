@@ -56,7 +56,7 @@ module RCoLi
           target = self.parent ? :options : :global_options
           option.keys.each{|key| result.send(target)[key] = value}
         else
-          raise InvalidCommand, "#'{arg}' is not a valid option"
+          raise InvalidCommand, "'#{arg}' is not a valid option"
         end
       else
         if (cmd = find_command(arg))
@@ -184,13 +184,26 @@ module RCoLi
       put_default_values(result)      
       parse_args(args, result)
       if result.command
+        
+        # command has to have the action block
         action = result.command.get_action
         raise "Invalid configuration. Missing action block." unless action
+        
+        # enable/disable logging level DEBUG
+        if (result.global_options['debug'])
+          context.instance_exec do
+            @log.level = Logger::DEBUG
+          end
+        end
+        
+        # execution of the pre block
         context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.solitaire?) 
+        # execution of the main block
         context.instance_exec(result.global_options, result.options, result.arguments, &action)
+        # execution of the post block
         context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.solitaire?) 
       else
-        say "Display UI"
+        say "This feature is comming soon. Now you should execute '#{value_of_name} help'"
       end
     end
     
