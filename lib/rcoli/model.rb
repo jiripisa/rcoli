@@ -1,6 +1,9 @@
 class InvalidCommand < Exception
 end
 
+class ApplicationError < Exception
+end
+
 module RCoLi
   
   module CommandContainer

@@ -31,6 +31,8 @@ at_exit {
     @program.execute(ARGV, self)
   rescue InvalidCommand => e
     say "#{@program.value_of_name}: #{e.message}. See '#{@program.value_of_name} help'"
+  rescue ApplicationError => e
+    say "#{e.message}"
   end
     
 }
