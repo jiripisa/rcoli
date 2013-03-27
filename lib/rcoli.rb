@@ -32,7 +32,7 @@ at_exit {
   rescue InvalidCommand => e
     say "#{@program.value_of_name}: #{e.message}. See '#{@program.value_of_name} help'"
   rescue ApplicationError => e
-    say "#{e.message}"
+    say($terminal.color "#{e.message}", :red)
   end
     
 }
