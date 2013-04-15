@@ -195,7 +195,7 @@ module RCoLi
         # enable/disable logging level DEBUG
         if (result.global_options['debug'])
           context.instance_exec do
-            @log.level = Logger::DEBUG
+            log.level = Logger::DEBUG
           end
         end
         
