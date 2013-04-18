@@ -206,7 +206,7 @@ module RCoLi
         
         # command has to have the action block
         action = result.command.get_action
-        raise "Invalid configuration. Missing action block." unless action
+        raise ApplicationError, "Invalid configuration. Missing action block." unless action
         
         # enable/disable logging level DEBUG
         if (result.global_options['debug'])
