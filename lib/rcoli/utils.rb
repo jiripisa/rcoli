@@ -1,5 +1,6 @@
 require 'logger'
 require 'singleton'
+require 'paint'
 
 module RCoLi
   
@@ -19,7 +20,19 @@ module RCoLi
       @log = Logger.new(STDOUT)
       @log.level = Logger::INFO
       @log.formatter = proc do |severity, datetime, progname, msg|
-        "#{msg}\n"
+        case severity
+        when "DEBUG"
+          color = 'gray27'
+        else
+          color = :white
+        end
+        
+        if STDOUT.tty?
+          Paint["#{msg}\n", color]
+        else
+          "#{msg}\n"
+        end
+        
       end
     end
     
@@ -29,8 +42,46 @@ module RCoLi
     
   end
   
+  class SystemExecutor
+    
+    include Singleton
+    
+    def initialize
+    end
+    
+    def register(file)
+      @source = file
+      log.debug("Loading commands from file #{file}")
+      @commands = YAML::load(File.open(file))
+    end
+    
+    def execute(command, *args)
+      cmnd = @commands[command.to_s]
+      if cmnd
+        cmnd.scan(/\$\{([^\s]+)\}/).each do |s|
+          context = args[0]
+          (s[0].split('.').each{|key| context = (context.is_a? Hash) ? context[key] : nil})
+          cmnd = cmnd.sub("${#{s[0]}}", context) if context if context
+        end
+        log.debug("EXEC: #{cmnd}")
+        system(cmnd)
+      else
+        raise ApplicationError, "The command #{command} isn't configured. Check the file #{@source}"
+      end
+    end
+    
+  end
+  
 end
 
 def log
   RCoLi::Log.instance.logger
+end
+
+def sysexec(command, *args)
+  RCoLi::SystemExecutor.instance.execute(command, args[0])
+end
+
+def load_commands(file)
+  RCoLi::SystemExecutor.instance.register(file)
 end

@@ -1,13 +1,15 @@
 PATH
   remote: .
   specs:
-    rcoli (0.5.8)
+    rcoli (0.5.9)
       highline (~> 1.6.11)
+      paint (= 0.8.5)
 
 GEM
   remote: http://rubygems.org/
   specs:
     highline (1.6.15)
+    paint (0.8.5)
     rake (10.0.3)
 
 PLATFORMS

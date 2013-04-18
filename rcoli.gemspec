@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_runtime_dependency("highline", "~> 1.6.11")
-  
+  s.add_runtime_dependency('paint', '0.8.5')
   s.add_development_dependency("rake")
 end
