@@ -16,7 +16,9 @@ def application(id, &block)
   
   @program.command(:help) do |c|
     c.description "Display help documentation"
-    c.solitaire
+    c.skip_pre true
+    c.skip_post true
+    c.force true
     c.action do |global_opts, opts, args|
       @program.help args
     end

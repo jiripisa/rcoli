@@ -8,7 +8,11 @@ module RCoLi
   
   module CommandContainer
     
+    setter :force
+    
+    
     attr_accessor :parent
+    
     
     def action(&block)
       @action = block
@@ -18,8 +22,8 @@ module RCoLi
       @action
     end
     
-    def command(name, &block)
-      obj = Command.new(name)
+    def command(nam, &block)
+      obj = Command.new(nam)
       obj.parent = self
       block.call(obj)  
       commands << obj
@@ -66,6 +70,7 @@ module RCoLi
           result.command = cmd
           cmd.put_default_values(result)
           cmd.parse_args(args, result)
+          cmd.validate_options(result, :options)
         elsif (commands.empty?)
           result.arguments << arg
         else
@@ -83,7 +88,18 @@ module RCoLi
     end
     
     def find_command(name)
-      commands.find{|command| command.value_of_name.eql? name}
+      result = commands.find{|command| command.value_of_name.to_s.eql? name}
+      return result
+    end
+    
+    def validate_options(result, target)
+      if (result.command.value_of_force == true)
+        return
+      else
+        self.options.find_all{|o| o.is_a? Flag and o.value_of_required}.each do |o|
+          raise InvalidCommand, "Required option '#{o.to_s}' is missing" unless o.keys.find{|key| result.send(target)[key]}
+        end
+      end
     end
     
     private
@@ -111,6 +127,10 @@ module RCoLi
       [@s_name, @l_name].compact
     end
     
+    def to_s
+      keys.join(', ')
+    end
+    
     def help_keys
       result = []
       result << "-#{@s_name}" if @s_name
@@ -136,6 +156,7 @@ module RCoLi
     
     setter :default_value
     setter :arg_name
+    setter :required
     
   end
     
@@ -145,14 +166,8 @@ module RCoLi
     setter :summary
     setter :description
     setter :syntax
-    
-    def solitaire
-      @solitaire = true
-    end
-    
-    def solitaire?
-      return true == @solitaire
-    end
+    setter :skip_pre
+    setter :skip_post
     
     def initialize(name)
       @name = name
@@ -186,6 +201,7 @@ module RCoLi
       result = ParsedArgs.new
       put_default_values(result)      
       parse_args(args, result)
+      validate_options(result, :global_options)
       if result.command
         
         # command has to have the action block
@@ -200,11 +216,11 @@ module RCoLi
         end
         
         # execution of the pre block
-        context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.solitaire?) 
+        context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.value_of_skip_pre) 
         # execution of the main block
         context.instance_exec(result.global_options, result.options, result.arguments, &action)
         # execution of the post block
-        context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.solitaire?) 
+        context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.value_of_skip_post) 
       else
         say "This feature is comming soon. Now you should execute '#{value_of_name} help'"
       end

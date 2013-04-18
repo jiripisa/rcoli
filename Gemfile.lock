@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcoli (0.5.7)
+    rcoli (0.5.8)
       highline (~> 1.6.11)
 
 GEM
