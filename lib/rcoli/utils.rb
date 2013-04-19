@@ -61,8 +61,16 @@ module RCoLi
         cmnd.scan(/\$\{([^\s]+)\}/).each do |s|
           context = args[0]
           (s[0].split('.').each{|key| context = (context.is_a? Hash) ? context[key] : nil})
-          cmnd = cmnd.sub("${#{s[0]}}", context) if context if context
+          cmnd = cmnd.sub("${#{s[0]}}", context) if context
         end
+        
+        # ALTERNATIVE SOLUTION
+        # cmnd.to_enum(:scan, /\$\{([^\s]+)\}/).map {[Regexp.last_match[0], Regexp.last_match[1].split('.')]}.each do |m|
+        #   context = (context.nil? ? config : context)[m[1].delete_at(0)] until m[1].size == 0
+        #   cmnd = cmnd.sub(m[0], context) if context.is_a? String
+        # end
+        
+        
         log.debug("EXEC: #{cmnd}")
         system(cmnd)
       else
