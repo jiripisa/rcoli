@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcoli (0.5.10)
+    rcoli (0.5.11)
       highline (~> 1.6.11)
       paint (= 0.8.5)
 

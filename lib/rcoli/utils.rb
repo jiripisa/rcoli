@@ -61,7 +61,7 @@ module RCoLi
         cmnd.scan(/\$\{([^\s]+)\}/).each do |s|
           context = args[0]
           (s[0].split('.').each{|key| context = (context.is_a? Hash) ? context[key] : nil})
-          cmnd = cmnd.sub("${#{s[0]}}", context.to_s) if context
+          cmnd = cmnd.sub("${#{s[0]}}", ((context.is_a? Array) ? context.join(',') : context.to_s)) if context
         end
         
         # ALTERNATIVE SOLUTION
