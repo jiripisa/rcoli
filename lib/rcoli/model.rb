@@ -93,7 +93,7 @@ module RCoLi
     end
     
     def validate_options(result, target)
-      if (result.command.value_of_force == true)
+      if (result.command.nil? or result.command.value_of_force == true)
         return
       else
         self.options.find_all{|o| o.is_a? Flag and o.value_of_required}.each do |o|
