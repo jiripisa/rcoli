@@ -222,7 +222,7 @@ module RCoLi
         # execution of the post block
         context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.value_of_skip_post) 
       else
-        say "This feature is comming soon. Now you should execute '#{value_of_name} help'"
+        say "This feature is comming soon. You should execute '#{value_of_name} help' now."
       end
     end
     
