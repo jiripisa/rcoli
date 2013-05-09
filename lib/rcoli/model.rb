@@ -215,6 +215,11 @@ module RCoLi
           end
         end
         
+        # enable dev mode
+        if (result.global_options['mode-dev'])
+          ApplicationContext.instance.modedev = true
+        end
+        
         # execution of the pre block
         context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.value_of_skip_pre) 
         # execution of the main block

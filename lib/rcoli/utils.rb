@@ -9,6 +9,7 @@ module RCoLi
     include Singleton
     
     attr_accessor :debug
+    attr_accessor :modedev
     
   end
   
@@ -72,7 +73,7 @@ module RCoLi
         
         
         log.debug("EXEC: #{cmnd}")
-        system(cmnd)
+        system(cmnd) unless ApplicationContext.instance.modedev
       else
         raise ApplicationError, "The command #{command} isn't configured. Check the file #{@source}"
       end

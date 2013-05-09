@@ -14,6 +14,10 @@ def application(id, &block)
     s.description "Turn on debugging"
   end
   
+  @program.switch :long => 'mode-dev' do |s|
+    s.description "Turn on development mode"
+  end
+  
   @program.command(:help) do |c|
     c.description "Display help documentation"
     c.skip_pre true
