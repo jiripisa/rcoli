@@ -9,7 +9,7 @@
 <% unless command.commands.empty? -%>
   <%= $terminal.color "SUBCOMMANDS", :bold %>:
   
-<% command.commands.sort{|a,b| a.value_of_name <=> b.value_of_name}.each do |c| -%>
+<% command.commands.sort{|a,b| a.value_of_name.to_s <=> b.value_of_name.to_s}.each do |c| -%>
     <%= "%-20s %s" % [c.value_of_name, c.value_of_description] %>
 <% end %>
 <% end -%>
