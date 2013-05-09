@@ -10,7 +10,7 @@ require 'rcoli/model'
 def application(id, &block)
   @program.name id
   
-  @program.switch long: 'debug' do |s|
+  @program.switch :long => 'debug' do |s|
     s.description "Turn on debugging"
   end
   
