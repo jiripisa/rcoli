@@ -88,7 +88,17 @@ def log
 end
 
 def sysexec(command, *args)
-  RCoLi::SystemExecutor.instance.execute(command, args[0])
+  halt_on_error = false
+  args.each do |arg|
+    if arg.is_a?(Hash)
+      halt_on_error = arg['halt_on_error'] if arg.has_key?('halt_on_error')
+    end
+  end
+  retval = RCoLi::SystemExecutor.instance.execute(command, args[0])
+  if (halt_on_error and retval != true)
+    Kernel::exit(1)
+  end
+  retval
 end
 
 def load_commands(file)
