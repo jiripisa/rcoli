@@ -59,7 +59,7 @@ module RCoLi
     def execute(command, *args)
       cmnd = @commands[command.to_s]
       if cmnd
-        cmnd.scan(/\$\{([^\s]+)\}/).each do |s|
+        cmnd.scan(/\$\{([^}\s]+)\}/).each do |s|
           context = args[0]
           (s[0].split('.').each{|key| context = (context.is_a? Hash) ? context[key] : nil})
           cmnd = cmnd.gsub("${#{s[0]}}", ((context.is_a? Array) ? context.join(',') : context.to_s)) if context
