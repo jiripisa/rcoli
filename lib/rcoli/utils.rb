@@ -11,6 +11,10 @@ module RCoLi
     attr_accessor :debug
     attr_accessor :modedev
     
+    def initialize
+      @modedev = false
+    end
+
   end
   
   class Log
@@ -95,7 +99,7 @@ def sysexec(command, *args)
     end
   end
   retval = RCoLi::SystemExecutor.instance.execute(command, args[0])
-  if (halt_on_error and retval != true)
+  if (!ApplicationContext.instance.modedev and halt_on_error and retval != true)
     Kernel::exit(1)
   end
   retval
