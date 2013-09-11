@@ -99,7 +99,7 @@ def sysexec(command, *args)
     end
   end
   retval = RCoLi::SystemExecutor.instance.execute(command, args[0])
-  if (!ApplicationContext.instance.modedev and halt_on_error and retval != true)
+  if (!RCoLi::ApplicationContext.instance.modedev and halt_on_error and retval != true)
     Kernel::exit(1)
   end
   retval
