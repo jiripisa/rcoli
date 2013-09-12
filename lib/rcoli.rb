@@ -39,6 +39,7 @@ at_exit {
     say "#{@program.value_of_name}: #{e.message}. See '#{@program.value_of_name} help'"
   rescue ApplicationError => e
     say($terminal.color "#{e.message}", :red)
+    Kernel::exit(1)
   end
     
 }
