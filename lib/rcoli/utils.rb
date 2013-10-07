@@ -9,10 +9,10 @@ module RCoLi
     include Singleton
     
     attr_accessor :debug
-    attr_accessor :modedev
+    attr_accessor :devmode
     
     def initialize
-      @modedev = false
+      @devmode = false
     end
 
   end
@@ -77,7 +77,7 @@ module RCoLi
         
         
         log.debug("EXEC: #{cmnd}")
-        system(cmnd) unless ApplicationContext.instance.modedev
+        system(cmnd) unless ApplicationContext.instance.devmode
       else
         raise ApplicationError, "The command #{command} isn't configured. Check the file #{@source}"
       end
@@ -91,6 +91,10 @@ def log
   RCoLi::Log.instance.logger
 end
 
+def dev_mode?
+  RCoLi::ApplicationContext.instance.devmode
+end
+
 def sysexec(command, *args)
   halt_on_error = false
   args.each do |arg|
@@ -99,7 +103,7 @@ def sysexec(command, *args)
     end
   end
   retval = RCoLi::SystemExecutor.instance.execute(command, args[0])
-  if (!RCoLi::ApplicationContext.instance.modedev and halt_on_error and retval != true)
+  if (!RCoLi::ApplicationContext.instance.devmode and halt_on_error and retval != true)
     Kernel::exit(1)
   end
   retval

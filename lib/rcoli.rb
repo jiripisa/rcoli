@@ -14,7 +14,7 @@ def application(id, &block)
     s.description "Turn on debugging"
   end
   
-  @program.switch :long => 'mode-dev' do |s|
+  @program.switch :long => 'dev-mode' do |s|
     s.description "Turn on development mode"
   end
   
