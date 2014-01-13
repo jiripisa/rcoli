@@ -30,14 +30,14 @@ Library for development of command line applications in Ruby.
 		    c.description "Commands for creating and managing nodes"
 		    c.command :create do |sc|
 		      sc.description "Creates node"
-		      sc.action do |global_opts, opts, args|
+		      sc.action do |opts, args|
 					 # your action here
 		      end
 		    end
 				
 		    c.command :remove do |sc|
 		      sc.description "Remove node"
-		      sc.action do |global_opts, opts, args|
+		      sc.action do |opts, args|
 					 # your action here
 		      end
 		    end
