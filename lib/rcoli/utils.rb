@@ -28,6 +28,8 @@ module RCoLi
         case severity
         when "DEBUG"
           color = 'gray27'
+        when "FATAL"
+          color = :red
         else
           color = :white
         end
