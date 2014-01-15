@@ -60,8 +60,7 @@ module RCoLi
           else
             value = true
           end
-          target = self.parent ? :options : :global_options
-          option.keys.each{|key| result.send(target)[key] = value}
+          option.keys.each{|key| result.options[key] = value}
         else
           raise InvalidCommand, "'#{arg}' is not a valid option"
         end
@@ -70,7 +69,7 @@ module RCoLi
           result.command = cmd
           cmd.put_default_values(result)
           cmd.parse_args(args, result)
-          cmd.validate_options(result, :options)
+          cmd.validate_options(result)
         elsif (commands.empty?)
           result.arguments << arg
         else
@@ -82,8 +81,7 @@ module RCoLi
     
     def put_default_values(result)
       options.find_all{|option| option.respond_to? :value_of_default_value and option.value_of_default_value}.each do |option|
-        target = self.parent ? :options : :global_options
-        option.keys.each{|key| result.send(target)[key] = option.value_of_default_value}
+        option.keys.each{|key| result.options[key] = option.value_of_default_value}
       end
     end
     
@@ -92,12 +90,12 @@ module RCoLi
       return result
     end
     
-    def validate_options(result, target)
+    def validate_options(result)
       if (result.command.nil? or result.command.value_of_force == true)
         return
       else
         self.options.find_all{|o| o.is_a? Flag and o.value_of_required}.each do |o|
-          raise InvalidCommand, "Required option '#{o.to_s}' is missing" unless o.keys.find{|key| result.send(target)[key]}
+          raise InvalidCommand, "Required option '#{o.to_s}' is missing" unless o.keys.find{|key| result.options[key]}
         end
       end
     end
@@ -105,7 +103,13 @@ module RCoLi
     private
     
     def find_option(name)
-      options.find{|opt| opt.correspond?(name)}
+      all_options = []
+      command = self
+      begin
+        all_options.concat(command.options)
+        command = command.parent
+      end while(command)
+      all_options.find{|opt| opt.correspond?(name)}
     end
 
     def is_option?(value)
@@ -201,7 +205,7 @@ module RCoLi
       result = ParsedArgs.new
       put_default_values(result)      
       parse_args(args, result)
-      validate_options(result, :global_options)
+      validate_options(result)
       if result.command
         
         # command has to have the action block
@@ -209,23 +213,23 @@ module RCoLi
         raise ApplicationError, "Invalid configuration. Missing action block." unless action
         
         # enable/disable logging level DEBUG
-        if (result.global_options['debug'])
+        if (result.options['debug'])
           context.instance_exec do
             log.level = Logger::DEBUG
           end
         end
         
         # enable dev mode
-        if (result.global_options['dev-mode'])
+        if (result.options['dev-mode'])
           ApplicationContext.instance.devmode = true
         end
         
         # execution of the pre block
-        context.instance_exec(result.global_options, result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.value_of_skip_pre) 
+        context.instance_exec(result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.value_of_skip_pre) 
         # execution of the main block
-        context.instance_exec(result.global_options, result.options, result.arguments, &action)
+        context.instance_exec(result.options, result.arguments, &action)
         # execution of the post block
-        context.instance_exec(result.global_options, result.options, result.arguments, &@post_action) if (@post_action and !result.command.value_of_skip_post) 
+        context.instance_exec(result.options, result.arguments, &@post_action) if (@post_action and !result.command.value_of_skip_post) 
       else
         say "This feature is comming soon. You should execute '#{value_of_name} help' now."
       end
@@ -244,14 +248,12 @@ module RCoLi
   
   class ParsedArgs
     
-    attr_reader :global_options
-    attr_reader :options
+    attr_accessor :options
     attr_reader :arguments
     
     attr_accessor :command
     
     def initialize
-      @global_options = {}
       @options = {}
       @arguments = []
     end

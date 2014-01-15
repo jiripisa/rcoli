@@ -23,7 +23,7 @@ def application(id, &block)
     c.skip_pre true
     c.skip_post true
     c.force true
-    c.action do |global_opts, opts, args|
+    c.action do |opts, args|
       @program.help args
     end
   end
