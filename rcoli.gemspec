@@ -5,11 +5,12 @@ require "rcoli/version"
 Gem::Specification.new do |s|
   s.name        = "rcoli"
   s.version     = RCoLi::VERSION
-  s.authors     = ["Jiri Pisa"]
-  s.email       = ["jirka.pisa@gmail.com"]
+  s.authors     = ["Jiri Pisa", "Jaroslav Barton"]
+  s.email       = ["jirka.pisa@gmail.com", "jaroslav@bartonovi.eu"]
   s.homepage    = "https://github.com/jiripisa/rcoli"
   s.summary     = "The complete solution for commandline application written in ruby."
   s.description = "The complete solution for commandline application written in ruby."
+  s.licenses    = ["MIT"]
 
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
