@@ -13,6 +13,7 @@ module RCoLi
     
     def initialize
       @devmode = false
+      @debug = false
     end
 
   end
@@ -95,6 +96,10 @@ end
 
 def dev_mode?
   RCoLi::ApplicationContext.instance.devmode
+end
+
+def debug?
+  RCoLi::ApplicationContext.instance.debug
 end
 
 def sysexec(command, *args)

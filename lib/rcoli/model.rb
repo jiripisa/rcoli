@@ -224,6 +224,10 @@ module RCoLi
           ApplicationContext.instance.devmode = true
         end
         
+        if (result.options['debug'])
+          ApplicationContext.instance.debug = true
+        end
+        
         # execution of the pre block
         context.instance_exec(result.options, result.arguments, &@pre_action) if (@pre_action and !result.command.value_of_skip_pre) 
         # execution of the main block
