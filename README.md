@@ -1,4 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/rcoli.png)](http://badge.fury.io/rb/rcoli)
+[![Dependency Status](https://gemnasium.com/djaara/rcoli.png)](https://gemnasium.com/djaara/rcoli)
 
 RCoLi
 =====
