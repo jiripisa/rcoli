@@ -3,10 +3,10 @@ PATH
   specs:
     rcoli (0.7.1)
       highline (~> 1.6.11)
-      paint (= 0.8.5)
+      paint (~> 0.8.5)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     highline (1.6.20)
     paint (0.8.5)
